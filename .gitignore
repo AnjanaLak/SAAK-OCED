@@ -6,3 +6,5 @@
 /Reports/
 /ViolationProofs/
 /faceRecognition/test.py
+/faceSpoofing/spoofedDataset/
+/faceSpoofing/model_saved.h5
