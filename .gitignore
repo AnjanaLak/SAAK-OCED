@@ -8,3 +8,4 @@
 /faceRecognition/test.py
 /faceSpoofing/spoofedDataset/
 /faceSpoofing/model_saved.h5
+/directoryManager/test.py
