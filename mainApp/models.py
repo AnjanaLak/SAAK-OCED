@@ -1,6 +1,6 @@
 from datetime import datetime
-from audioClassification import db
-from audioClassification import ma
+from mainApp import db
+from mainApp import ma
 
 
 #################### DB models ######################################################################
@@ -53,15 +53,13 @@ class Exam(db.Model):
     candidateID = db.Column(db.String(20))
     examID = db.Column(db.String(20))
     examDate = db.Column(db.String(20))
-    dateAttempted = db.Column(db.String(20))
     duration = db.Column(db.String(20))
-    status = db.Column(db.Integer)
+    status = db.Column(db.Integer, default=0)
 
-    def __init__(self, candidateID, examID, examDate, dateAttempted, duration, status):
+    def __init__(self, candidateID, examID, examDate, duration, status):
         self.candidateID = candidateID
         self.examID = examID
         self.examDate = examDate
-        self.dateAttempted = dateAttempted
         self.duration = duration
         self.status = status
 
@@ -125,9 +123,9 @@ candidate_Schema = Candidate_Schema(many=True)
 
 class Exam_Schema(ma.Schema):
     class Meta:
-        fields = ('candidateID', 'examID', 'examDate', 'dateAttempted', 'duration', 'status')
+        fields = ('candidateID', 'examID', 'examDate', 'duration', 'status')
 
 
-Exam_Schema = Exam_Schema()
-Exam_Schema = Exam_Schema(many=True)
+exam_Schema = Exam_Schema()
+exam_Schema = Exam_Schema(many=True)
 
