@@ -1,6 +1,7 @@
 import face_recognition
 import time
 
+
 def compareFaces(faceImagePath1, faceImagePath2, tolerance):
     start_time = time.time()
     image1 = face_recognition.load_image_file(faceImagePath1)
@@ -8,11 +9,13 @@ def compareFaces(faceImagePath1, faceImagePath2, tolerance):
 
     encoding_1 = face_recognition.face_encodings(image1)[0]
 
-    encoding_2 = face_recognition.face_encodings(image2)[0]
-
-    results = face_recognition.compare_faces([encoding_1], encoding_2, tolerance=tolerance)
+    try:
+        encoding_2 = face_recognition.face_encodings(image2)[0]
+        results = face_recognition.compare_faces([encoding_1], encoding_2, tolerance=tolerance)
+    except:
+        print()
+        results = "Face is not exposed to the camera properly"
 
     print(results)
     print("--- %s seconds ---" % (time.time() - start_time))
     return results
-

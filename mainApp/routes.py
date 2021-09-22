@@ -2,10 +2,11 @@
 
 from flask import jsonify
 from mainApp import app, db
-# from audioClassification.models import Articles, articles_schema, article_schema
+from mainApp.models import Session
 from flask import Flask, request
 from PIL import Image
 from mainApp import startSession
+import requests
 
 
 @app.route('/examSession', methods=['POST'])
@@ -21,7 +22,27 @@ def start_session():
     # image = Image.open(cimg.stream)
     # Calling create_session function from startSession.py
     startSession.create_session(cid, cname, cemail, eid, edate, dur, uid, cimg)
+    # session_info_to_frontend(cid, cname, cemail, eid, edate, dur, uid, cimg)
     return jsonify({"Status": "Session Registration Completed"})
+
+
+@app.route('/get/<id>/', methods=['GET'])
+def get_session_info_to_frontend(id):
+    # spllit the candidate_id, uni_id and the secret key
+    print(type(id))
+    # define another get method
+    # session_info = Session.query.get(id)
+    # return session_info
+
+
+### post request to send session info to the front end
+def session_info_to_frontend(cid, cname, cemail, eid, edate, dur, uid, cimg):
+    frontend_session_url = ''
+    session_info = {'candidateID': cid, 'candidateName': cname, 'candidateEmail': cemail, 'ExamID': eid,
+                    'examDate': edate, 'duration': dur, 'uniID': uid, 'image': cimg}
+    result = requests.post(url=frontend_session_url, data=session_info)
+    r = result.text
+    print(r)
 
 # @app.route('/startAudioProcess', methods=['POST'])
 # def process_audio():
@@ -33,55 +54,3 @@ def start_session():
 #         return jsonify({"Status": "Completed"})
 #     else:
 #         return jsonify({"Status": "Not Completed"})
-#
-# #
-# @app.route('/get', methods=['GET'])
-# def get_articles():
-#     # return jsonify({"Hello":"World"})
-#     all_articles = Articles.query.all()
-#     results = articles_schema.dump(all_articles)  # note that we are using 's' as it will get many objects
-#     return jsonify(results)
-#
-#
-# @app.route('/get/<id>/', methods=['GET'])
-# def post_articles(id):
-#     article = Articles.query.get(id)
-#     return article_schema.jsonify(article)
-#
-#
-# @app.route('/add', methods=['POST'])
-# def add_articles():
-#     title = request.json['title']
-#     body = request.json['body']
-#
-#     articles = Articles(title, body)  # creating an article object
-#     db.session.add(articles)  # adding the record to the object
-#     db.session.commit()
-#     return article_schema.jsonify(articles)
-#
-#
-# # Update
-#
-# @app.route('/update/<id>/', methods=['PUT'])
-# def update_articles(id):
-#     article = Articles.query.get(id)
-#
-#     title = request.json['title']
-#     body = request.json['body']
-#
-#     article.title = title
-#     article.body = body
-#
-#     db.session.commit()
-#     return article_schema.jsonify(article)
-#
-#
-# # delete
-# @app.route('/delete/<id>/', methods=['DELETE'])
-# def delete_articles(id):
-#     article = Articles.query.get(id)
-#
-#     db.session.delete(article)
-#     db.session.commit()
-#
-#     return article_schema.jsonify(article)
