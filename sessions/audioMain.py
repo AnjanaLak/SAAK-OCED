@@ -3,12 +3,12 @@ import re
 import speech_recognition as sr
 from pydub import AudioSegment
 from pydub.utils import make_chunks
+
 from pydub import AudioSegment as am
 import directoryManager
 # import keywordList as kw
 from datetime import datetime
 from mainApp import db
-
 
 from mainApp.models import Audio_Record, audio_Record_Schema
 
@@ -29,9 +29,12 @@ def listToString(s):
     return (str1.join(s))
 
 
-def silence_based_conversion(audio_path, candidateID, examinationID):
+def silence_based_conversion(candidateID, examinationID):
     ## to get the current working directory
     cwd = os.getcwd()
+    os.chdir(os.getcwd() + '/sessions')
+    audio_path = '../AudioRecords/' + candidateID + '/' + examinationID + '/'
+    audio_file = audio_path + 'output.wav'
     ## Importing the directory manager
     # dir = directoryManager.createDirectories(candidateID, examinationID, cwd)
     print(os.getcwd() + " ==> is my current working directory")
@@ -39,7 +42,7 @@ def silence_based_conversion(audio_path, candidateID, examinationID):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'api-key.json'
         GOOGLE_CLOUD_SPEECH_CREDENTIALS = f.read()
 
-    myaudio = AudioSegment.from_file(audio_path, "wav")
+    myaudio = AudioSegment.from_file(audio_file, "wav")
     chunk_length_ms = 14000  # pydub calculates in millisec
     chunks = make_chunks(myaudio, chunk_length_ms)
 
@@ -48,7 +51,7 @@ def silence_based_conversion(audio_path, candidateID, examinationID):
     fh = open("recognized.txt", "w+")
 
     # move into the directory to store the audio files.
-    os.chdir('../data/' + candidateID + '/' + examinationID + '/' + 'audio_chunks')
+    os.chdir('../AudioChunks/' + candidateID + '/' + examinationID + '/' + 'audio_chunks')
 
     # Export all of the individual chunks as wav files
 
@@ -71,7 +74,7 @@ def silence_based_conversion(audio_path, candidateID, examinationID):
             # r.adjust_for_ambient_noise(source)
             audio_listened = r.listen(source)
         try:
-            #rec = r.recognize_google_cloud(audio_listened, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS)
+            # rec = r.recognize_google_cloud(audio_listened, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS)
             rec = r.recognize_google(audio_listened)
             print(type(rec))
             print(os.getcwd() + "==> is the directory of chunk processed" + "./chunk{0}.wav".format(i))
@@ -81,8 +84,8 @@ def silence_based_conversion(audio_path, candidateID, examinationID):
             text_record = rec
             matched_keywords = []
             match_records = {}
-            candidate_Id = 'IT17019750'
-            exam_id = 'IT4140'
+            # candidate_Id = 'IT17019750'
+            # exam_id = 'IT4140'
             chunk_dir_path = os.getcwd() + "./chunk{0}.wav"
             keywordlist = kw
             print(text_record)
@@ -96,7 +99,7 @@ def silence_based_conversion(audio_path, candidateID, examinationID):
                         # print("Not matched")
                         pass
                 # need to insert the record from here
-                record = Audio_Record(candidate_Id, exam_id, chunk_dir_path, datetime.now(),
+                record = Audio_Record(candidateID, examinationID, chunk_dir_path, datetime.now(),
                                       listToString(matched_keywords))  # creating an article object
                 db.session.add(record)  # adding the record to the object
                 print("THe matched keyword list is => " + listToString(matched_keywords))
@@ -104,7 +107,6 @@ def silence_based_conversion(audio_path, candidateID, examinationID):
                     db.session.commit()
                 except Exception as e:
                     print(e)
-
 
                 # print(audio_Record_Schema.jsonify(record))
             else:
@@ -121,9 +123,9 @@ def silence_based_conversion(audio_path, candidateID, examinationID):
     return 2
 
 
-def start(audio_path, candidateID, examinationID):
+def start(candidateID, examinationID):
     # path = "output.wav"
-    if silence_based_conversion(audio_path, candidateID, examinationID) == 2:
+    if silence_based_conversion(candidateID, examinationID) == 2:
         return "Completed"
     else:
         return "Not completed"

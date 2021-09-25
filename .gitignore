@@ -9,7 +9,7 @@
 /faceSpoofing/spoofedDataset/
 /faceSpoofing/model_saved.h5
 /directoryManager/test.py
-/audioClassification/dataset/test/one/api-key.json
+/sessions/api-key.json
 /audioClassification/dataset/train/
 /audioClassification/dataset/test/which/
 /audioClassification/dataset/test/where/

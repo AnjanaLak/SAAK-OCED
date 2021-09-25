@@ -1,8 +1,10 @@
 import os
+import multiprocessing
 import directoryManager
 from mainApp.models import Session, Candidate, Exam
 
 from mainApp import db
+import captureService
 
 
 def create_session(candidateID, candidateName, candidateEmail, examID, examDate, duration, uniID, img):
@@ -15,7 +17,7 @@ def create_session(candidateID, candidateName, candidateEmail, examID, examDate,
     # need to insert user image path to the session and candidate table records
     # need to insert records into session table
     session_record = Session(candidateID, candidateName, candidateEmail, examID,
-                                    examDate, duration, uniID, image_stored_dir)
+                             examDate, duration, uniID, image_stored_dir)
     db.session.add(session_record)
     try:
         db.session.commit()
@@ -64,4 +66,12 @@ def setProcessStatus(candidateID, examID):
 
 def processStatus(candidateID, examID):
     # need to run this function when processing the relevant examination
+    return
+
+
+def initializeExam(candidateID, examID):
+    # need to start video streams, save frames, record audio files, trigger user recognition and
+    # area allocation
+    ## Threading requires to run each functions parallel
+    # startAudioRecording()
     return

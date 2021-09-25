@@ -2,7 +2,7 @@ import os
 
 import cv2
 import time
-import CompareFaces
+from faceRecognition import CompareFaces
 
 vid = cv2.VideoCapture(0)
 
