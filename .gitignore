@@ -13,3 +13,4 @@
 /audioClassification/dataset/
 /RoughPaper/data/
 /RoughPaper/model_saved.h5
+/MultiUserDetection/yolov3.weights
