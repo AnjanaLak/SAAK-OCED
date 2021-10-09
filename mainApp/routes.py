@@ -10,6 +10,7 @@ from mainApp import startSession
 from captureService import cameraCapture
 from faceRecognition import test2
 import requests
+from faceSpoofing import predict_image_class
 
 global x
 
@@ -24,66 +25,11 @@ def start_session():
     uid = request.form['uniID']
     dur = request.form['duration']
     cimg = request.files['image']
-    # image = Image.open(cimg.stream)
-    # Calling create_session function from startSession.py
     startSession.create_session(cid, cname, cemail, eid, edate, dur, uid, cimg)
     session_info = session_info_to_frontend(cid, cname, cemail, eid, edate, dur, uid)
     return jsonify(session_info)
-
-
-@app.route('/startAudioProcess', methods=['POST'])
-def process_audio():
-    candidateID = request.json['studentID']
-    examinationID = request.json['examID']
-    x = audioMain.start(candidateID, examinationID)
-    if x == "Completed":
-        return jsonify({"Status": "Completed"})
-    else:
-        return jsonify({"Status": "Not Completed"})
-
-
-@app.route('/captureAudio', methods=['POST'])
-def capture_audio():
-    candidateID = request.json['studentID']
-    examinationID = request.json['examID']
-    # x = audioMain.start(candidateID, examinationID)
-    if x == "Completed":
-        return jsonify({"Status": "Completed"})
-    else:
-        return jsonify({"Status": "Not Completed"})
-
-
-@app.route('/captureDevMtdCam', methods=['POST'])
-def capture_dev_mtd_cam():
-    candidateID = request.json['studentID']
-    examinationID = request.json['examID']
-    # x = audioMain.start(candidateID, examinationID)
-    if x == "Completed":
-        return jsonify({"Status": "Completed"})
-    else:
-        return jsonify({"Status": "Not Completed"})
-
-
-@app.route('/captureFaceMtdCam', methods=['POST'])
-def capture_face_mtd_cam():
-    candidateID = request.json['studentID']
-    examinationID = request.json['examID']
-    # x = audioMain.start(candidateID, examinationID)
-    if x == "Completed":
-        return jsonify({"Status": "Completed"})
-    else:
-        return jsonify({"Status": "Not Completed"})
-
-
-@app.route('/captureCam', methods=['POST'])
-def capture_cam():
-    candidateID = request.json['studentID']
-    examinationID = request.json['examID']
-    x = cameraCapture.camerasCaptureStart(candidateID, examinationID)
-    if x == "Completed":
-        return jsonify({"Status": "Completed"})
-    else:
-        return jsonify({"Status": "Not Completed"})
+    # image = Image.open(cimg.stream)
+    # Calling create_session function from startSession.py
 
 
 @app.route('/processExam', methods=['POST'])
@@ -91,26 +37,14 @@ def process_exam():
     candidateID = request.json['studentID']
     examinationID = request.json['examID']
     # need to call frame divider ?????
-    # x = audioMain.start(candidateID, examinationID)
-    # Need to call face_recognition, rough paper detection, area allocation
+    # Need to call audio_classification,face_recognition, rough paper detection, area allocation
+    # audioMain.start(candidateID, examinationID)
+    # test2.start_user_recognition(candidateID, examinationID)
+    x = predict_image_class.predict_spoofed_frames(candidateID, examinationID)
     if x == "Completed":
         return jsonify({"Status": "Completed"})
     else:
         return jsonify({"Status": "Not Completed"})
-
-
-@app.route('/processFaceRecognition', methods=['POST'])
-def process_face_recognition():
-    candidateID = request.json['studentID']
-    examinationID = request.json['examID']
-    # need to call frame divider ?????
-    x = test2.start_user_recognition(candidateID, examinationID)
-    # Need to call face_recognition, rough paper detection, area allocation
-    if x == "Completed":
-        return jsonify({"Status": "Completed"})
-    else:
-        return jsonify({"Status": "Not Completed"})
-
 
 
 ### post request to send session info to the front end

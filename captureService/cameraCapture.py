@@ -25,12 +25,12 @@ def camPreview(previewName, camID, candidateID, examinationID):
     else:
         rval = False
 
-    i = 1
+    i = 0
     os.chdir(os.getcwd() + '/captureService/')
     frames_dir = '../Frames/'
     while rval:
         i += 1
-        cv2.imshow(previewName, frame)
+        # cv2.imshow(previewName, frame)
         rval, frame = cam.read()
 
         if camID == 0:
@@ -56,9 +56,9 @@ def camerasCaptureStart(candidateID, examinationID):
     print("the current working directory is =>" + os.getcwd())
     # Creating threads to each face camera and device mounted camera
     thread1 = camThread("Face Mounted Camera", 0, candidateID, examinationID)
-    thread2 = camThread("Device Mounted Camera", 1, candidateID, examinationID)
+    #thread2 = camThread("Device Mounted Camera", 1, candidateID, examinationID)
 
     thread1.start()
-    # thread2.start()
+    #thread2.start()
     print()
     print("Active threads", threading.activeCount())

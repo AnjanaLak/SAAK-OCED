@@ -5,7 +5,7 @@
 /Frames/
 /Reports/
 /ViolationProofs/
-/faceRecognition/test.py
+/preview/camPreview.py
 /faceSpoofing/spoofedDataset/
 /faceSpoofing/model_saved.h5
 /directoryManager/test.py
