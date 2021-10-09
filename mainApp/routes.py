@@ -1,6 +1,8 @@
 ############ Routes #################################################################
 
 from flask import jsonify
+
+from RoughPaper.predict_image_class import predict_rough_papers
 from mainApp import app, db
 from mainApp.models import Session
 from sessions import audioMain
@@ -40,7 +42,8 @@ def process_exam():
     # Need to call audio_classification,face_recognition, rough paper detection, area allocation
     # audioMain.start(candidateID, examinationID)
     # test2.start_user_recognition(candidateID, examinationID)
-    x = predict_image_class.predict_spoofed_frames(candidateID, examinationID)
+    # predict_image_class.predict_spoofed_frames(candidateID, examinationID)
+    x = predict_rough_papers(candidateID, examinationID)
     if x == "Completed":
         return jsonify({"Status": "Completed"})
     else:

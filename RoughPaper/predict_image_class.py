@@ -1,7 +1,5 @@
 import os
 import time
-
-from keras.layers import Activation
 import keras
 import numpy as np
 import tensorflow
@@ -13,7 +11,7 @@ from keras.models import Sequential
 from datetime import datetime
 
 from mainApp import db
-from mainApp.models import Face_Spoofed_Record
+from mainApp.models import Rough_Ppr_Record
 
 frames_dir = '../Frames/'
 
@@ -59,9 +57,9 @@ def getImageClass():
     return modelI
 
 
-def predict_spoofed_frames(candidateID, examinationID):
+def predict_rough_papers(candidateID, examinationID):
     print("the current working directory is =>" + os.getcwd())
-    os.chdir(os.getcwd() + '/faceSpoofing/')
+    os.chdir(os.getcwd() + '/RoughPaper/')
     modelI = getImageClass()
     i = 0
     while True:
@@ -85,23 +83,22 @@ def predict_spoofed_frames(candidateID, examinationID):
 
             pred = modelI.predict(img)
             print(pred)
-            y = ["Real", "Fake"]
+            y = ["Empty", "Not-Empty"]
             print(np.argmax(pred))
             print(y[np.argmax(pred)])
             print(type(y[np.argmax(pred)]))
             # return y[np.argmax(pred)]
             # need to create a record if violation occurred
-            if y[np.argmax(pred)] == "Real":
-                print("This is fake")
+            if y[np.argmax(pred)] == "Not-Empty":
                 print(candidateID)
-                # print(type(candidateID) + "is the type of candidate ID")
                 print(examinationID)
+                # need to change 'device_mounted_camera_frames' to 'face_mounted_camera_frames'
                 framesDir = os.getcwd() + frames_dir + candidateID + "/" + examinationID + "/" + \
                             "device_mounted_camera_frames/" + \
                             str(i) + ".png"
                 print(framesDir)
-                record = Face_Spoofed_Record(candidateID, examinationID, framesDir,
-                                             datetime.now())  # creating an article object
+                record = Rough_Ppr_Record(candidateID, examinationID, framesDir,
+                                          datetime.now())  # creating an article object
                 db.session.add(record)  # adding the record to the object
                 try:
                     db.session.commit()

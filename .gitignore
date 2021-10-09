@@ -10,38 +10,6 @@
 /faceSpoofing/model_saved.h5
 /directoryManager/test.py
 /sessions/api-key.json
-/audioClassification/dataset/train/
-/audioClassification/dataset/test/which/
-/audioClassification/dataset/test/where/
-/audioClassification/dataset/test/what/
-/audioClassification/dataset/test/two/
-/audioClassification/dataset/test/true/
-/audioClassification/dataset/test/top/
-/audioClassification/dataset/test/three/
-/audioClassification/dataset/test/this/
-/audioClassification/dataset/test/third/
-/audioClassification/dataset/test/that/
-/audioClassification/dataset/test/tell me/
-/audioClassification/dataset/test/second/
-/audioClassification/dataset/test/question/
-/audioClassification/dataset/test/possible/
-/audioClassification/dataset/test/please/
-/audioClassification/dataset/test/not sure/
-/audioClassification/dataset/test/might be/
-/audioClassification/dataset/test/may be/
-/audioClassification/dataset/test/last/
-/audioClassification/dataset/test/know this/
-/audioClassification/dataset/test/know/
-/audioClassification/dataset/test/is this/
-/audioClassification/dataset/test/incorrect/
-/audioClassification/dataset/test/here/
-/audioClassification/dataset/test/hello/
-/audioClassification/dataset/test/fourth/
-/audioClassification/dataset/test/four/
-/audioClassification/dataset/test/five/
-/audioClassification/dataset/test/first/
-/audioClassification/dataset/test/final/
-/audioClassification/dataset/test/fifth/
-/audioClassification/dataset/test/false/
-/audioClassification/dataset/test/correct/
-/audioClassification/dataset/test/bottom/
+/audioClassification/dataset/
+/RoughPaper/data/
+/RoughPaper/model_saved.h5
