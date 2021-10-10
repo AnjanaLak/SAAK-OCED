@@ -4,6 +4,7 @@ from flask import jsonify
 
 from MultiUserDetection.StaticDynamicDetectionService import predict_human_movements
 from RoughPaper.predict_image_class import predict_rough_papers
+from areaAllocation.headAngleEstimation import predictAngleEstimations
 from mainApp import app, db
 from mainApp.models import Session
 from sessions import audioMain
@@ -45,7 +46,8 @@ def process_exam():
     # test2.start_user_recognition(candidateID, examinationID)
     # predict_image_class.predict_spoofed_frames(candidateID, examinationID)
     # predict_rough_papers(candidateID, examinationID)
-    x = predict_human_movements(candidateID, examinationID)
+    # predict_human_movements(candidateID, examinationID)
+    x = predictAngleEstimations(candidateID, examinationID)
     if x == "Completed":
         return jsonify({"Status": "Completed"})
     else:

@@ -14,3 +14,6 @@
 /RoughPaper/data/
 /RoughPaper/model_saved.h5
 /MultiUserDetection/yolov3.weights
+/areaAllocation/face_detection/faces/
+/areaAllocation/face_detection/models/
+/areaAllocation/face_detection/unsplash/
