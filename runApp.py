@@ -26,17 +26,17 @@ if __name__ == '__main__':
     # app.run(debug=True, threaded=True)  # enable debug to debug frequent changes without restarting application
 
     p1 = multiprocessing.Process(target=main_app)
-    p2 = multiprocessing.Process(target=audio_capture)
+    # p2 = multiprocessing.Process(target=audio_capture)
     #p3 = multiprocessing.Process(target=frame_capture)
     # p4 = multiprocessing.Process(target=run_preview)
 
     p1.start()
-    p2.start()
+    # p2.start()
     #p3.start()
     # p4.start()
 
     p1.join()
-    p2.join()
+    # p2.join()
     #p3.join()
     # p4.join()
 

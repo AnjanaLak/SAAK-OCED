@@ -48,9 +48,12 @@ def RecordAudio(candidateID, examinationID):
         # Save the recorded data as a WAV file
         # file = filename + str(j) + ".wav"
         file = audio_records_dir + candidateID + "/" + examinationID + "/" + str(j) + ".wav"
+
         wf = wave.open(file, 'wb')
         wf.setnchannels(channels)
         wf.setsampwidth(p.get_sample_size(sample_format))
         wf.setframerate(fs)
         wf.writeframes(b''.join(frames))
         wf.close()
+
+

@@ -7,6 +7,7 @@ from RoughPaper.predict_image_class import predict_rough_papers
 from areaAllocation.headAngleEstimation import predictAngleEstimations
 from mainApp import app, db
 from mainApp.models import Session
+from reportGenerator.textFileGenerator import text_file_generator
 from sessions import audioMain
 from flask import Flask, request
 from PIL import Image
@@ -47,7 +48,9 @@ def process_exam():
     # predict_image_class.predict_spoofed_frames(candidateID, examinationID)
     # predict_rough_papers(candidateID, examinationID)
     # predict_human_movements(candidateID, examinationID)
-    x = predictAngleEstimations(candidateID, examinationID)
+    # x = predictAngleEstimations(candidateID, examinationID)
+    # need to retrieve data from db and generate a text file
+    x = text_file_generator(candidateID, examinationID)
     if x == "Completed":
         return jsonify({"Status": "Completed"})
     else:
