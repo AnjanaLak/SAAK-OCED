@@ -184,15 +184,10 @@ def predictAngleEstimations(candidateID, examinationID):
                 except:
                     print("Ignoring non resizable images")
                     continue
-            # cv2.imshow('img', img)
-            # if cv2.waitKey(1) & 0xFF == ord('q'):
-            #     break
-        # else:
-        #     break
+
         except:
-            print("Empty Directory")
+            print("Empty Directory or process completed")
             break
     # cv2.destroyAllWindows()
     # cap.release()
     os.chdir('../')
-

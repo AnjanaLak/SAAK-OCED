@@ -3,14 +3,14 @@
 from flask import jsonify
 from AudioRecordService import app1
 from flask import request
-from AudioRecorder import record
+from AudioRecorder.record import RecordAudio
 
 
 @app1.route('/captureAudio', methods=['POST'])
 def capture_audio():
     candidateID = request.json['studentID']
     examinationID = request.json['examID']
-    record.RecordAudio(candidateID, examinationID)
+    RecordAudio(candidateID, examinationID)
     return jsonify({"Status": "Record Completed"})
 
 
