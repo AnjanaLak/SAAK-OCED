@@ -12,8 +12,8 @@ def compareFaces(faceImagePath1, faceImagePath2, tolerance):
     try:
         encoding_2 = face_recognition.face_encodings(image2)[0]
         results = face_recognition.compare_faces([encoding_1], encoding_2, tolerance=tolerance)
-        # if 'False' in r:
-        #     results = 'False'
+        if False in results:
+            results = 'False'
     except:
         print()
         results = "Face is not exposed to the camera properly"

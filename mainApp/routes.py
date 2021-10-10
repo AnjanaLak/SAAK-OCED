@@ -1,4 +1,5 @@
 ############ Routes #################################################################
+from time import sleep
 
 from flask import jsonify
 
@@ -13,7 +14,7 @@ from flask import Flask, request
 from PIL import Image
 from mainApp import startSession
 from captureService import cameraCapture
-from faceRecognition import test2
+from faceRecognition import faceRecognitonService
 import requests
 from faceSpoofing import predict_image_class
 
@@ -41,17 +42,17 @@ def start_session():
 def process_exam():
     candidateID = request.json['studentID']
     examinationID = request.json['examID']
-    # need to call frame divider ?????
     # Need to call audio_classification,face_recognition, rough paper detection, area allocation
-    # audioMain.start(candidateID, examinationID)
-    # test2.start_user_recognition(candidateID, examinationID)
-    # predict_image_class.predict_spoofed_frames(candidateID, examinationID)
-    # predict_rough_papers(candidateID, examinationID)
-    # predict_human_movements(candidateID, examinationID)
-    # x = predictAngleEstimations(candidateID, examinationID)
+    audioMain.start(candidateID, examinationID)
+    predictAngleEstimations(candidateID, examinationID)
+    sleep(1)
+    predict_human_movements(candidateID, examinationID)
+    faceRecognitonService.start_user_recognition(candidateID, examinationID)
+    predict_image_class.predict_spoofed_frames(candidateID, examinationID)
+    predict_rough_papers(candidateID, examinationID)
     # need to retrieve data from db and generate a text file
     x = text_file_generator(candidateID, examinationID)
-    if x == "Completed":
+    if x:
         return jsonify({"Status": "Completed"})
     else:
         return jsonify({"Status": "Not Completed"})
@@ -77,7 +78,3 @@ def session_info_to_frontend(cid, cname, cemail, eid, edate, dur, uid):
 #     # define another get method
 #     # session_info = Session.query.get(id)
 #     # return session_info
-#
-# # @app.route('/startdevie mountedCamera', methods=['POST'])
-# # def start_session():
-# #

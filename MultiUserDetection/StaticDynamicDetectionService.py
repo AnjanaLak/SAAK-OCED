@@ -25,6 +25,9 @@ from time import strptime
 
 from datetime import datetime
 
+from mainApp import db
+from mainApp.models import Human_Movement_Record
+
 
 def predict_human_movements(candidateID, examinationID):
     print("the current working directory is =>" + os.getcwd())
@@ -312,7 +315,7 @@ def predict_human_movements(candidateID, examinationID):
         j += 1
         try:
             imge = frames_dir + candidateID + "/" + examinationID + "/" + "device_mounted_camera_frames/" + \
-                    str(j) + ".png"
+                   str(j) + ".png"
             image = cv2.imread(imge)
             # ret, image = cap.read()
             # print(ret)
@@ -331,17 +334,33 @@ def predict_human_movements(candidateID, examinationID):
             # print(boxes,'1')
             count = 0
             # arr = []
+            dire = os.getcwd() + imge
             for i in range(nums[0]):
                 if int(classes[0][i] == 0):
                     count += 1
                     image = draw_outputs(image, (boxes, scores, classes, nums), class_names)
             if count == 0:
                 print('No person detected')
+                record = Human_Movement_Record(candidateID, examinationID, dire,
+                                               datetime.now())  # creating an article object
+                db.session.add(record)  # adding the record to the object
+                try:
+                    db.session.commit()
+                except Exception as e:
+                    print(e)
+                    pass
                 # need to save a violation record
             elif count > 1:
                 print('******************** More than one person detected **********************')
                 # need to save a violation record
-
+                record = Human_Movement_Record(candidateID, examinationID, dire,
+                                               datetime.now())  # creating an article object
+                db.session.add(record)  # adding the record to the object
+                try:
+                    db.session.commit()
+                except Exception as e:
+                    print(e)
+                    pass
                 # create timeframe
                 # ts_str = '2000-03-10 15:43:10'
                 # ts = strptime(ts_str, '%Y-%m-%d %H:%M:%S')
@@ -353,7 +372,7 @@ def predict_human_movements(candidateID, examinationID):
                 end_time = datetime.now()
                 print('end time ' + 'Duration: {}'.format(end_time))
         except:
-            print("The directory is empty")
+            print("The directory is empty or process completed successfully")
             break
 
         # image = draw_outputs(image, (boxes, scores, classes, nums), class_names)

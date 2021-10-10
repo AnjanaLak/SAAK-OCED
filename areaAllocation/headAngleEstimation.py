@@ -1,10 +1,12 @@
 import os
-
+from datetime import datetime
 import cv2
 import numpy as np
 import math
 from areaAllocation.faceDetector import get_face_detector, find_faces
 from areaAllocation.faceLandmarks import get_landmark_model, detect_marks
+from mainApp import db
+from mainApp.models import Allocated_Area_Record
 
 
 def predictAngleEstimations(candidateID, examinationID):
@@ -164,19 +166,52 @@ def predictAngleEstimations(candidateID, examinationID):
                         ang2 = 90
 
                         # print('div by zero error')
+                    dire = os.getcwd() + imge
                     if ang1 >= 48:
                         print('Head down')
-                        cv2.putText(img, 'Head down', (30, 30), font, 2, (255, 255, 128), 3)
+                        # cv2.putText(img, 'Head down', (30, 30), font, 2, (255, 255, 128), 3)
+                        record = Allocated_Area_Record(candidateID, examinationID, dire,
+                                                       datetime.now())  # creating an article object
+                        db.session.add(record)  # adding the record to the object
+                        try:
+                            db.session.commit()
+                        except Exception as e:
+                            print(e)
+                            pass
                     elif ang1 <= -48:
                         print('Head up')
-                        cv2.putText(img, 'Head up', (30, 30), font, 2, (255, 255, 128), 3)
+                        # cv2.putText(img, 'Head up', (30, 30), font, 2, (255, 255, 128), 3)
+                        record = Allocated_Area_Record(candidateID, examinationID, dire,
+                                                       datetime.now())  # creating an article object
+                        db.session.add(record)  # adding the record to the object
+                        try:
+                            db.session.commit()
+                        except Exception as e:
+                            print(e)
+                            pass
 
                     if ang2 >= 48:
                         print('Head right')
-                        cv2.putText(img, 'Head right', (90, 30), font, 2, (255, 255, 128), 3)
+                        # cv2.putText(img, 'Head right', (90, 30), font, 2, (255, 255, 128), 3)
+                        record = Allocated_Area_Record(candidateID, examinationID, dire,
+                                                       datetime.now())  # creating an article object
+                        db.session.add(record)  # adding the record to the object
+                        try:
+                            db.session.commit()
+                        except Exception as e:
+                            print(e)
+                            pass
                     elif ang2 <= -48:
                         print('Head left')
-                        cv2.putText(img, 'Head left', (90, 30), font, 2, (255, 255, 128), 3)
+                        # cv2.putText(img, 'Head left', (90, 30), font, 2, (255, 255, 128), 3)
+                        record = Allocated_Area_Record(candidateID, examinationID, dire,
+                                                       datetime.now())  # creating an article object
+                        db.session.add(record)  # adding the record to the object
+                        try:
+                            db.session.commit()
+                        except Exception as e:
+                            print(e)
+                            pass
                     print("The angle 1 is : " + str(ang1))
                     print("The angle 2 is : " + str(ang2))
                     cv2.putText(img, str(ang1), tuple(p1), font, 2, (128, 255, 255), 3)
