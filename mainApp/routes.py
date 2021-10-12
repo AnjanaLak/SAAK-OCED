@@ -58,6 +58,16 @@ def process_exam():
         return jsonify({"Status": "Not Completed"})
 
 
+@app.route('/uploadRoughPaper', methods=['POST'])
+def upload_rough_paper():
+    cimg = request.files['file']
+    image = Image.open(cimg.stream)
+    # Calling save rough paper function
+    print(image)
+
+    return jsonify({"Status": "Completed"})
+
+
 ### post request to send session info to the front end
 def session_info_to_frontend(cid, cname, cemail, eid, edate, dur, uid):
     # frontend_session_url = ''
